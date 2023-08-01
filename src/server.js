@@ -34,7 +34,6 @@ app.set('views', __dirname+'/views');
 app.use('/', viewRouter);
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-app.use('/chat', viewRouter);
 
 const httpServer = app.listen(8080, ()=>{
     console.log('Server ok on port 8080');

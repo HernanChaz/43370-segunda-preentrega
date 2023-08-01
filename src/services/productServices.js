@@ -4,9 +4,9 @@ const productDao = new ProductDaoMongoDB();
 //import ProductDaoFS from '../daos/filesystem/productDao.js';
 //const productDao = new ProductDaoFS();
 
-export const getProductsServices = async () => {   
+export const getProductsServices = async (page, limit, query, queryValue, sort) => {   
     try {
-        const response = await productDao.getProducts();
+        const response = await productDao.getProducts(page, limit, query, queryValue, sort);
         return response;
     }
     catch (err) {
@@ -38,7 +38,8 @@ export const addProductServices = async (obj) => {
 
 export const updateProductServices = async (id, obj) => {   
     try {
-        const item = await productDao.updateProduct(id,obj);
+        const item = await productDao.updateProduct(id, obj);
+        console.log(item);
         return item;
     }
     catch (err) {

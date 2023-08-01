@@ -2,8 +2,43 @@ import * as service from '../services/productServices.js';
 
 export const getAll = async (req, res, next) => {
     try {
+        const { page, limit, query, queryValue, sort } = req.query;
+        const response = await service.getProductsServices(page, limit, query, queryValue, sort);
+        const nextLink = response.hasNextPage ? `http://localhost:8080/api/products/?page=${response.nextPage},limit=${limit}` : null;
+        const prevLink = response.hasPrevPage ? `http://localhost:8080/api/products/?page=${response.prevPage},limit=${limit}` : null;
+        res.status(200).json({
+            status: 'success',
+            payload: response.docs,
+            totalPages: response.totalPages,
+            prevPage: response.prevPage,
+            nextPage: response.nextPage,
+            hasPrevPage: response.hasPrevPage,
+            hasNextPage: response.hasNextPage,
+            prevLink,
+            nextLink
+        });
+    }
+    catch (error) {
+        next(error.message);
+    }
+}
+
+export const getProds = async (req, res, next) => {
+    try {
         const response = await service.getProductsServices();
-        res.status(200).json(response);
+        const nextLink = response.hasNextPage ? `http://localhost:8080/api/products/?page=${response.nextPage},limit=${limit}` : null;
+        const prevLink = response.hasPrevPage ? `http://localhost:8080/api/products/?page=${response.prevPage},limit=${limit}` : null;
+        return {
+            status: 'success',
+            payload: response.docs,
+            totalPages: response.totalPages,
+            prevPage: response.prevPage,
+            nextPage: response.nextPage,
+            hasPrevPage: response.hasPrevPage,
+            hasNextPage: response.hasNextPage,
+            prevLink,
+            nextLink
+        };
     }
     catch (error) {
         next(error.message);

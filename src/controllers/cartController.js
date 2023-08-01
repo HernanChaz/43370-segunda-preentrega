@@ -38,22 +38,44 @@ export const update = async (req, res, next) => {
     try {
         const {cid} = req.params;
         const {pid} = req.params;
-        const cartUpd = await service.getCartByIdServices(cid);
-        let idx = cartUpd.products.findIndex( prod => prod.prodId == pid );
-        if(idx == -1){
-            await service.updateCartServices(cid, pid);
-        }
-        console.log("mira este update", idx);
+        const obj = req.body;
+        const response = await service.updateCartServices(cid, pid, obj.quantity);
+        res.status(200).json(response);
     }
     catch (error) {
         next(error.message);
     }
 }
 
+//Recibe el array entero de productos para el carrito
+export const updateProducts = async (req, res, next) => {
+    try {
+        const {cid} = req.params;
+        const products = req.body;
+        await service.updateProducts(cid, products);
+    }
+    catch (error) {
+        next(error.message);
+    }
+}
+
+
 export const remove = async (req, res, next) => {
     try {
         const {cid} = req.params;
         const cartDel = await service.deleteCartServices(cid);
+        res.json(cartDel);
+    }
+    catch (error) {
+        next(error.message);
+    }
+}
+
+export const removeProduct = async (req, res, next) => {
+    try {
+        const {cid} = req.params;
+        const {pid} = req.params;
+        const cartDel = await service.deleteCartProductServices(cid, pid);
         res.json(cartDel);
     }
     catch (error) {

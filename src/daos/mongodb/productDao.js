@@ -12,9 +12,13 @@ export default class ProductDaoMongoDB {
         }
     }
         
-    async getProducts(){
+    async getProducts(page = 1, limit = 10, query, queryValue, sortValue = null){
         try {
-            const response = await ProductModel.find();
+            const filter = {};
+            const sort = {};
+            if(query) filter[query] = queryValue;
+            if(sort) sort.price = sortValue;
+            const response = await ProductModel.paginate(filter, { page, limit, sort });
             return response;
         }
         catch (error){

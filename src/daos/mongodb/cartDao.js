@@ -32,10 +32,9 @@ export default class CartDaoMongoDB {
         }
     }
     
-    async updateCart(cartId, prodId){
+    async updateCart(cid, pid, quantity){
         try {
-            const response = await CartModel.findOneAndUpdate(cartId, { $set: { "products.$[elem].quantity": +1 } },
-                                                            { arrayFilters: [ {"elem.prodID": prodId} ] }, {new: true});
+            const response = await CartModel.findOneAndUpdate({_id : cid, "products.id" : pid}, { $set: { "products.$.quantity": quantity } }, {}, {new: true});
             return response;
         }
         catch (error){
@@ -43,13 +42,34 @@ export default class CartDaoMongoDB {
         }
     }
     
-    async deleteCart(cartId){
+    async updateProducts(cartId, products){
         try {
-            const response = await CartModel.findByIdAndDelete(cartId);
+            const response = await CartModel.findOneAndUpdate({_id : cartId}, {$set: { "products": products }}, {new: true});
             return response;
         }
         catch (error){
             console.log(error);
         }
     }
+
+    async deleteCart(cartId){
+        try {
+            const response = await CartModel.findOneAndUpdate({_id : cartId}, {$set: { "products": [] }}, {new: true});
+            return response;
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
+
+    async deleteCartProduct(cid, pid){
+        try {
+            const response = await CartModel.findOneAndUpdate({_id : cid, "products.id" : pid}, { $set: { "products.$.quantity": quantity } }, {}, {new: true});
+            return response;
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
+
 }
