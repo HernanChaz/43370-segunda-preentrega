@@ -14,9 +14,9 @@ export const getProductsServices = async (page, limit, query, queryValue, sort) 
     }
 }
 
-export const getProductByIdServices = async (id) => {   
+export const getProductByIdServices = async (pid) => {   
     try {
-        const item = await productDao.getProductById(id);
+        const item = await productDao.getProductById(pid);
         if(!item) return false;
         else return item;
     }
@@ -36,10 +36,9 @@ export const addProductServices = async (obj) => {
     }
 }
 
-export const updateProductServices = async (id, obj) => {   
+export const updateProductServices = async (pid, obj) => {   
     try {
-        const item = await productDao.updateProduct(id, obj);
-        console.log(item);
+        const item = await productDao.updateProduct(pid, obj);
         return item;
     }
     catch (err) {
@@ -47,9 +46,9 @@ export const updateProductServices = async (id, obj) => {
     }
 }
 
-export const deleteProductServices = async (id) => {   
+export const deleteProductServices = async (pid) => {   
     try {
-        const item = await productDao.deleteProduct(id);
+        const item = await productDao.deleteProduct(pid);
         return item;
     }
     catch (err) {

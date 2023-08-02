@@ -11,12 +11,34 @@ export const getAll = async (req, res, next) => {
     }
 }
 
+export const getAllView = async (req, res, next) => {
+    try {
+        const response = await service.getCartsServices();
+        return response;
+    }
+    catch (error) {
+        next(error.message);
+    }
+}
+
 export const getById = async (req, res, next) => {
     try {
         const {cid} = req.params;
         const prod = await service.getCartByIdServices(cid);
         if(!prod) res.status(404).json({msg: 'Carrito no encontrado'});
         else res.status(200).json(prod);
+    }
+    catch (error) {
+        next(error.message);
+    }
+}
+
+export const getByIdView = async (req, res, next) => {
+    try {
+        const {cid} = req.params;
+        const cart = await service.getCartByIdServices(cid);
+        if(!cart) res.status(404).json({msg: 'Carrito no encontrado'});
+        else return cart;
     }
     catch (error) {
         next(error.message);

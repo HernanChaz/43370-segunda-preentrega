@@ -1,0 +1,9 @@
+{{#if carts.length}}
+    {{#each carts}}
+        <ul>
+            <li><a href="./carts/{{_id}}">{{_id}}</a></li>
+        </ul>
+    {{/each}}
+    {{else}}
+        <p>No hay carritos</p>
+{{/if}}

@@ -18,7 +18,7 @@ export default class ProductDaoMongoDB {
             const sort = {};
             if(query) filter[query] = queryValue;
             if(sort) sort.price = sortValue;
-            const response = await ProductModel.paginate(filter, { page, limit, sort });
+            const response = await ProductModel.paginate(filter, { page, limit, sort, lean:true });
             return response;
         }
         catch (error){
@@ -26,9 +26,9 @@ export default class ProductDaoMongoDB {
         }
     }
       
-    async getProductById(prodId){
+    async getProductById(pid){
         try {
-            const response = await ProductModel.findById(prodId);
+            const response = await ProductModel.findById(pid);
             return response;
         }
         catch (error){
@@ -36,9 +36,9 @@ export default class ProductDaoMongoDB {
         }
     }
     
-    async updateProduct(prodId, product){
+    async updateProduct(pid, product){
         try {
-            const response = await ProductModel.findByIdAndUpdate( prodId, product, {new: true} );
+            const response = await ProductModel.findByIdAndUpdate( pid, product, {new: true} );
             return response;
         }
         catch (error){
@@ -46,9 +46,9 @@ export default class ProductDaoMongoDB {
         }
     }
     
-    async deleteProduct(prodId){
+    async deleteProduct(pid){
         try {
-            const response = await ProductModel.findByIdAndDelete(prodId);
+            const response = await ProductModel.findByIdAndDelete(pid);
             return response;
         }
         catch (error){

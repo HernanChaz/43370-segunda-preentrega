@@ -14,7 +14,7 @@ export default class CartDaoMongoDB {
         
     async getCarts(){
         try {
-            const response = await CartModel.find();
+            const response = await CartModel.find().lean();
             return response;
         }
         catch (error){
@@ -24,7 +24,7 @@ export default class CartDaoMongoDB {
         
     async getCartById(cartId){
         try {
-            const response = await CartModel.findById(cartId);
+            const response = await CartModel.findById(cartId).lean();
             return response;
         }
         catch (error){
